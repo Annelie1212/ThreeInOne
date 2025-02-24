@@ -1,0 +1,13 @@
+﻿20250221:
+
+Jag har nu gjort klart de tre apparna i separata solutionfiler.
+Nästa steg blir att sammanfoga dem till ett projekt och sedan
+pusha upp till github.
+
+20250224:
+
+Jag gjorde klart alla räknarfunktioner add, subtract, divide, multiplication,
+squareroot och modulo.
+Sedan sammanfogade jag alla tre apparna till en och samma solution med mappindelning per app,
+och tänker nu ladda upp min första version till Github. Tanken är att skapa en feature branch som
+dessutom innehåller felhantering.
