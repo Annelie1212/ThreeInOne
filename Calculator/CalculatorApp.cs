@@ -1,25 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+//using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThreeInOne;
+
+using FluentValidation;
+using FluentValidation.Results;
+using System.ComponentModel;
 
 namespace Calculator
 {
     internal class CalculatorApp
     {
 
-        
-        public double[] GetUserInput()
+        public static bool ErrorMessageDiplay(ValidationResult validationResults)
+        {
+            if (validationResults.IsValid == false)
+            {
+                foreach (ValidationFailure failure in validationResults.Errors)
+                {
+                    Console.WriteLine($"{failure.PropertyName}:{failure.ErrorMessage}");
+                }
+            }
+
+            return validationResults.IsValid;
+        }
+
+
+        public string[] GetUserInput()
         {
 
             Console.WriteLine("Ange tal 1: ");
-            double value1 = double.Parse(Console.ReadLine());
+            string value1 = Console.ReadLine();
             Console.WriteLine("Ange tal 2: ");
-            double value2 = double.Parse(Console.ReadLine());
+            string value2 = Console.ReadLine();
 
-            double[] userInput = { value1, value2 };
+            string[] userInput = { value1, value2 };
+
 
             return userInput;
         }
@@ -27,74 +46,116 @@ namespace Calculator
         {
             while (true)
             {
-                Console.WriteLine("MENY\nVälj en siffra ur menyn");
-                Console.WriteLine("1 Addition");
-                Console.WriteLine("2 Subtraktion");
-                Console.WriteLine("3 Multiplikation");
-                Console.WriteLine("4 Division");
-                Console.WriteLine("5 Roten Ur");
-                Console.WriteLine("6 Procent");
-                Console.WriteLine("0 AVSLUTA\n");
+                Menu calculatorMenu = new Menu();
+                calculatorMenu.NrChoices = new List<string> { "1", "2", "3", "4", "5", "6", "0" };
+                calculatorMenu.TextChoices = new List<string> {
+                    "Addition",
+                    "Subtraktion",
+                    "Multiplikation",
+                    "Division",
+                    "Roten Ur",
+                    "Modulo",
+                    "AVSLUTA"
+                };
+                calculatorMenu.Display();
+
 
                 string choice = Console.ReadLine();
 
-                DateTime currentDateTime = DateTime.Now;
-                Console.WriteLine($"{currentDateTime.ToString("yyyy-MM-dd HH:mm:ss")}");
+                MenuModel myMenuModel = new MenuModel(calculatorMenu.NrChoices.ToArray(), choice);
+                MenuValidator myMenuValidator = new MenuValidator();
+                ValidationResult validationResults = myMenuValidator.Validate(myMenuModel);
+                bool isMenuInputValid = ErrorMessageDiplay(validationResults);
 
-                double[] userInput = GetUserInput();
 
-                Calculator myCalculator = new Calculator(userInput,currentDateTime);
-                
-                switch (int.Parse(choice))
+                if (isMenuInputValid)
+
                 {
 
-                    case 1:
-                      
-                        myCalculator.Add();
-                        myCalculator.Display();
+                    if (choice == "0")
+                    {
                         break;
+                    }
 
-                    case 2:
+                    DateTime currentDateTime = DateTime.Now;
+                    Console.WriteLine($"{currentDateTime.ToString("yyyy-MM-dd HH:mm:ss")}");
 
-                        myCalculator.Subtract();
-                        myCalculator.Display();
-                        break;
-                       
+                    string[] userInput = GetUserInput();
 
-                    case 3:
 
-                        myCalculator.Multiply();
-                        myCalculator.Display();
-                        //SendToDatabase();
-                        break;
+                    CalculatorModel myCalculatorModel = new CalculatorModel(userInput[0], userInput[1]);
+                    CalculatorValidator myCalculatorValidator = new CalculatorValidator();
+                    ValidationResult ValidationResults = myCalculatorValidator.Validate(myCalculatorModel);
+                    bool isInputValid = ErrorMessageDiplay(ValidationResults);
 
-                    case 4:
 
-                        myCalculator.Divide();
-                        myCalculator.Display();
-                        //SendToDatabase();
-                        break;
+                    if (isInputValid)
+                    {
+                        #region Kommentar rektangelobjekt
+                        //Skapar ett rektangelobjekt från klassen Rectangle. För att använda rektangeln till att tex beräkna dess area.(uträkningen)
+                        #endregion
 
-                    case 5:
+                        double userValue1 = double.Parse(userInput[0]);
+                        double userValue2 = double.Parse(userInput[1]);
+                        double[] userValues = new double[] { userValue1, userValue2 };
 
-                        myCalculator.Square();
-                        myCalculator.Display();
-                    //SendToDatabase();
-                        break;
+                        Calculator myCalculator = new Calculator(userValues, currentDateTime);
 
-                    case 6:
+                        Console.WriteLine();
 
-                        myCalculator.Modulus();
-                        myCalculator.Display();
-                        //SendToDatabase();
-                        break;
+                        switch (int.Parse(choice))
+                        {
 
-                    default:
-                        break;
-                }
-                if (choice == "0")
-                {
-                    break;
+                            case 1:
+
+                                myCalculator.Add();
+                                myCalculator.Display();
+                                break;
+
+                            case 2:
+
+                                myCalculator.Subtract();
+                                myCalculator.Display();
+                                break;
+
+
+                            case 3:
+
+                                myCalculator.Multiply();
+                                myCalculator.Display();
+
+                                break;
+
+                            case 4:
+
+                                myCalculator.Divide();
+                                myCalculator.Display();
+
+                                break;
+
+                            case 5:
+
+                                myCalculator.Square();
+                                myCalculator.Display();
+
+                                break;
+
+                            case 6:
+
+                                myCalculator.Modulus();
+                                myCalculator.Display();
+
+                                break;
+
+                            default:
+                                break;
+                        }
+                        if (choice == "0")
+                        {
+                            break;
+                        }
+
+                    }
                 }
             }
         }

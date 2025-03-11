@@ -11,11 +11,11 @@ namespace Shapes
         public double Width { get; set; }
         public double Height { get; set; }
         public DateTime CurrentDateTime { get; set; }
-        public Parallellogram(double width, double hight) 
+        public Parallellogram(double width, double height) 
         {
             CurrentDateTime = DateTime.Now;
             Width = width;
-            Height = hight;
+            Height = height;
         }
         public double Area()
         {

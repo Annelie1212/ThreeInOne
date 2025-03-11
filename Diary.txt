@@ -9,5 +9,21 @@ pusha upp till github.
 Jag gjorde klart alla räknarfunktioner add, subtract, divide, multiplication,
 squareroot och modulo.
 Sedan sammanfogade jag alla tre apparna till en och samma solution med mappindelning per app,
-och tänker nu ladda upp min första version till Github. Tanken är att skapa en feature branch som
+och tänker nu ladda upp min första version till Github. Tanken är att skapa en feature branche som
 dessutom innehåller felhantering.
+
+20250225:
+
+Idag har jag börjat strukturera upp koden för min Fluid Validation i koden. Jag utnyttjar Fluid Validations från NuGet som jag lagt
+till i projektets dependencies. 
+
+20250303:
+
+Idag har jag lagt till classer i shapes appen till fluentvalidation. 
+
+20250304:
+Idag blev jag klar med all FleuntValidation till de olika klassobjekten, men jag har fortfarande ingen felhantering
+på mina menyer.
+
+20250307:
+lagt till menymodel och menyvalidator för att sköta felinmatning i menyerna.

@@ -1,17 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+//using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using ThreeInOne;
+
+using FluentValidation;
+using FluentValidation.Results;
+using System.ComponentModel;
+//using ThreeInOne;
+
+using System.Windows;
 
 namespace RockPaperScissors
 
 {
     internal class RockPaperScissorsApp
-
     {
+
+        public static bool ErrorMessageDiplay(ValidationResult ValidationResults)
+        {
+            if (ValidationResults.IsValid == false)
+            {
+                foreach (ValidationFailure failure in ValidationResults.Errors)
+                {
+                    Console.WriteLine($"{failure.PropertyName}:{failure.ErrorMessage}");
+                }
+            }
+
+            return ValidationResults.IsValid;
+        }
+        public bool playRound(Dictionary<int,string>move,Random random ,int j) 
+        {
+            Console.Write("Ange ditt drag: " + "\n");
+            string value1 = Console.ReadLine();
+
+
+            RockPaperScissorsModel rockPaperScissorsModel = new RockPaperScissorsModel( value1 );
+            RockPaperScissorsValidator rockPaperScissorsValidator = new RockPaperScissorsValidator();
+            ValidationResult validationResults = rockPaperScissorsValidator.Validate(rockPaperScissorsModel);
+            bool isInputValid = ErrorMessageDiplay(validationResults);
+
+            if (isInputValid)
+            {
+                #region Kommentar rektangelobjekt
+                //Skapar ett rektangelobjekt från klassen Rectangle. För att använda rektangeln till att tex beräkna dess area.(uträkningen)
+                #endregion
+
+                int valueInt = int.Parse(value1);
+                
+
+                Console.WriteLine("spelarens drag: " + move[valueInt] + "\n");
+
+                int randomNumber1 = random.Next(1, 4);
+                Console.WriteLine("Datorns drag: " + move[randomNumber1] + "\n");
+                Console.WriteLine(RockPaperScissors.Winner(move[valueInt], move[randomNumber1]));
+
+                RockPaperScissors.playerComputerMoves[j] = valueInt;
+                RockPaperScissors.playerComputerMoves[j + 1] = randomNumber1;
+                Console.WriteLine();
+
+                return true;
+            }
+
+            return false;
+            
+
+        }
 
         public int[] GetUserInput()
         {
@@ -26,120 +82,99 @@ namespace RockPaperScissors
             Console.WriteLine("3 Påse\n");
 
             Random random = new Random();
-            Console.Write("Ange ditt första drag: " + "\n");
-            int value1 = int.Parse(Console.ReadLine());
-            Console.WriteLine("spelarens drag: "+move[value1]+"\n");
+            for (int i = 0; i < 3; i++)
+            {
+                bool playRoundBool = playRound(move, random , i*2);
+                if (playRoundBool== false)
+                {
+                    i--;
+                }
+            }
 
-            int randomNumber1 = random.Next(1, 4);
-            Console.WriteLine("Datorns drag: "+move[randomNumber1]+"\n");
-            Console.WriteLine(RockPaperScissors.Winner(move[value1],move[randomNumber1]));
+            #region all rounds
+            //Console.Write("Ange ditt första drag: " + "\n");
+            //int value1 = int.Parse(Console.ReadLine());
+            //Console.WriteLine("spelarens drag: "+move[value1]+"\n");
 
-
-            Console.Write("Ange ditt andra drag: ");
-            int value2 = int.Parse(Console.ReadLine());
-            Console.WriteLine("spelarens drag: " + move[value2]+"\n");
-
-            int randomNumber2 = random.Next(1, 4);
-            Console.WriteLine("Datorns drag: "+move[randomNumber2]+"\n");
-            Console.WriteLine(RockPaperScissors.Winner(move[value2], move[randomNumber2]));
-
-            Console.Write("Ange ditt tredje drag: ");
-            int value3 = int.Parse(Console.ReadLine());
-            Console.WriteLine("spelarens drag: " + move[value3]+"\n");
-
-            int randomNumber3 = random.Next(1, 4);
-            Console.WriteLine("Datorns drag: "+move[randomNumber3]+"\n");
-            Console.WriteLine(RockPaperScissors.Winner(move[value3], move[randomNumber3]));
+            //int randomNumber1 = random.Next(1, 4);
+            //Console.WriteLine("Datorns drag: "+move[randomNumber1]+"\n");
+            //Console.WriteLine(RockPaperScissors.Winner(move[value1],move[randomNumber1]));
 
 
-            int[] userInput = { value1, randomNumber1, value2, randomNumber2, value3, randomNumber3, };
+            //Console.Write("Ange ditt andra drag: ");
+            //int value2 = int.Parse(Console.ReadLine());
+            //Console.WriteLine("spelarens drag: " + move[value2]+"\n");
+
+            //int randomNumber2 = random.Next(1, 4);
+            //Console.WriteLine("Datorns drag: "+move[randomNumber2]+"\n");
+            //Console.WriteLine(RockPaperScissors.Winner(move[value2], move[randomNumber2]));
+
+            //Console.Write("Ange ditt tredje drag: ");
+            //int value3 = int.Parse(Console.ReadLine());
+            //Console.WriteLine("spelarens drag: " + move[value3]+"\n");
+
+            //int randomNumber3 = random.Next(1, 4);
+            //Console.WriteLine("Datorns drag: "+move[randomNumber3]+"\n");
+            //Console.WriteLine(RockPaperScissors.Winner(move[value3], move[randomNumber3]));
+            #endregion
 
             RockPaperScissors.ShowResults();
 
-            return userInput;
+            return RockPaperScissors.playerComputerMoves;
         }
         public void Run()
         {
             
             while (true)
             {
-                Console.WriteLine("MENY\nVälj en siffra ur menyn");
-                Console.WriteLine("1 Play Game");
-                Console.WriteLine("2 Show latest result");
-                Console.WriteLine("3 Show total results");
-                Console.WriteLine("0 AVSLUTA\n");
+                Menu rockPaperScissorsMenu = new Menu();
+                rockPaperScissorsMenu.NrChoices = new List<string> { "1", "2", "3",  "0"};
+                rockPaperScissorsMenu.TextChoices = new List<string> {
+                    "Play Game",
+                    "Show latest result",
+                    "Show total results",
+                    "AVSLUTA"
+                };
+                rockPaperScissorsMenu.Display();
+
 
                 string choice = Console.ReadLine();
 
-                switch (int.Parse(choice))
+                MenuModel myMenuModel = new MenuModel(rockPaperScissorsMenu.NrChoices.ToArray(), choice);
+                MenuValidator myMenuValidator = new MenuValidator();
+                ValidationResult validationResults = myMenuValidator.Validate(myMenuModel);
+                bool isMenuInputValid = ErrorMessageDiplay(validationResults);
+
+
+                if (isMenuInputValid)
+
                 {
-                    case 1:
-                        //double[] userinput = GetUserInput();
-                        //Istället för att skapa en array så matar vi direkt in det som GetUserInput returnerar.
-                        Console.Clear();
-                        RockPaperScissors myRockPaperScissors = new RockPaperScissors(GetUserInput());
-                        
-                        //RockPaperScissors myRockPaperScissors = new RockPaperScissors();
-                        //myRockPaperScissors.RunGame();
-                        //myRockPaperScissors.ShowResult();
 
-                        //myRockPaperScissors.Display();
+                    if (choice == "0")
+                    {
                         break;
+                    }
 
-                    /*                    case 2:
-                                            Console.WriteLine("Ange : ");
-                                            double width2 = double.Parse(Console.ReadLine());
-                                            Console.WriteLine("Ange Höjdenheten: ");
-                                            double height2 = double.Parse(Console.ReadLine());
-                                            Console.WriteLine();
-                                            Parallellogram myParallellogram = new Parallellogram(width2, height2);
-                                            myParallellogram.Display();
-                                            Console.WriteLine();
-                                            SendToDatabase();
-                                            break;
 
-                                        case 3:
-                                            Console.WriteLine("Ange Basenheten: ");
-                                            double width3 = double.Parse(Console.ReadLine());
-                                            Console.WriteLine("Ange Höjdenheten: ");
-                                            double height3 = double.Parse(Console.ReadLine());
-                                            Console.WriteLine();
-                                            Console.WriteLine("Ange Triangelns sida A: ");
-                                            double sidaA = double.Parse(Console.ReadLine());
-                                            Console.WriteLine("Ange Triangelns sida B: ");
-                                            double sidaB = double.Parse(Console.ReadLine());
-                                            Console.WriteLine("Ange Triangelns sida C: ");
-                                            double sidaC = double.Parse(Console.ReadLine());
-                                            Console.WriteLine();
-                                            Triangle myTriangle = new Triangle(width3, height3, sidaA, sidaB, sidaC);
-                                            myTriangle.Display();
-                                            Console.WriteLine();
-                                            SendToDatabase();
-                                            break;
 
-                                        case 4:
-                                            Console.WriteLine("Ange Basenheten: ");
-                                            double width4 = double.Parse(Console.ReadLine());
-                                            Console.WriteLine("Ange Höjdenheten: ");
-                                            double height4 = double.Parse(Console.ReadLine());
-                                            Console.WriteLine();
-                                            Console.WriteLine("Ange Rombens första diagonal: ");
-                                            double diagonal1 = double.Parse(Console.ReadLine());
-                                            Console.WriteLine("Ange andra diagonalen: ");
-                                            double diagonal2 = double.Parse(Console.ReadLine());
-                                            Console.WriteLine();
-                                            Rhombus myRhombus = new Rhombus(width4, height4, diagonal1, diagonal2);
-                                            myRhombus.Display();
-                                            Console.WriteLine();
-                                            SendToDatabase();
-                                            break;*/
 
-                    default:
+                    switch (int.Parse(choice))
+                    {
+                        case 1:
+                            //double[] userinput = GetUserInput();
+                            //Istället för att skapa en array så matar vi direkt in det som GetUserInput returnerar.
+                            Console.Clear();
+                            RockPaperScissors myRockPaperScissors = new RockPaperScissors(GetUserInput());
+
+                            break;
+
+                        default:
+                            break;
+                    }
+                    if (choice == "0")
+                    {
                         break;
-                }
-                if (choice == "0")
-                {
-                    break;
+                    }
                 }
             }
         }

@@ -10,17 +10,34 @@ namespace RockPaperScissors
 {
     internal class RockPaperScissors
     {
-        public string Operator { get; set; }
-        public double UserValue1 { get; set; }
-        public double UserValue2 { get; set; }
+        
+        public int UserValue1 { get; set; }
+
+        public int ComputerValue1 { get; set; }
+        public int UserValue2 { get; set; }
+        public int ComputerValue2 { get; set; }
+        public int UserValue3 { get; set; }
+        public int ComputerValue3 { get; set; }
+
         public static int computerPoints { get; set; }
         public static int playerPoints { get; set; }
         public DateTime CurrentDateTime { get; set; }
 
-        public RockPaperScissors(int[] userValues)
+        public static int[] playerComputerMoves { get; set; } = new int[6];
+
+        
+
+        public RockPaperScissors(int[] moveNumbers)
         {
-            UserValue1 = userValues[0];
-            UserValue2 = userValues[1];
+            UserValue1 = moveNumbers[0];
+            ComputerValue1 = moveNumbers[1];
+            UserValue2 = moveNumbers[2];
+            ComputerValue2 = moveNumbers[3];
+            UserValue3 = moveNumbers[4];
+            ComputerValue3 = moveNumbers[5];
+
+
+
             CurrentDateTime = DateTime.Now;
         }
         public static string Winner(string userValue, string computerValue) 
@@ -76,7 +93,9 @@ namespace RockPaperScissors
             else 
             {
                 Console.Write("Det blev lika!");
-            }Console.WriteLine();
+            }
+            Console.WriteLine();
+            Console.WriteLine();
 
 
             
