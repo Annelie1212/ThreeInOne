@@ -8,9 +8,13 @@ namespace Shapes
 {
     public class Parallellogram
     {
+        public string Name { get; set; } = "Parallellogram";
         public double Width { get; set; }
         public double Height { get; set; }
         public DateTime CurrentDateTime { get; set; }
+
+        public double PerimeterResult { get; set; }
+        public double AreaResult { get; set; }
         public Parallellogram(double width, double height) 
         {
             CurrentDateTime = DateTime.Now;
@@ -19,18 +23,20 @@ namespace Shapes
         }
         public double Area()
         {
-            return Width * Height;
+            AreaResult = Math.Round(Width * Height, 2);
+            return AreaResult;
         }
-        public double perimeter() 
+        public double Perimeter() 
         {
-            return (Width + Height) * 2;
+            PerimeterResult = Math.Round((Width + Height) * 2, 2);
+            return PerimeterResult;
         }
         public void Display()
         {
             Console.WriteLine($"{CurrentDateTime.ToString("yyyy-MM-dd HH:mm:ss")}");
             Console.WriteLine($"Parallellogrammets bas: {Width} l.e. och höjden: {Height} l.e.");
             Console.WriteLine($"Arian = {Area()} l.e.");
-            Console.WriteLine($"Omkretsen = {perimeter()} l.e.");
+            Console.WriteLine($"Omkretsen = {Perimeter()} l.e.");
         }
 
     }

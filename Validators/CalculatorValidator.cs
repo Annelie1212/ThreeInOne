@@ -11,28 +11,44 @@ namespace ThreeInOne
 {
     public class CalculatorValidator : AbstractValidator<CalculatorModel>
     {
+        public static Dictionary<string, string> IntegerToOperation = new Dictionary<string, string>
+        {
+            {"1","Summan" },
+            {"2","Differensen"},
+            {"3","Produkten"},
+            {"4","Kvoten"},
+            {"5","X:te roten ur" },
+            {"6","Modulo"}
+        };
         public CalculatorValidator()
         {
 
-            RuleFor(calculator => calculator.UserValue1)
+            RuleFor(calculator => calculator)
                 .Cascade(CascadeMode.Stop)
                 .Must(IsValidDouble).WithMessage("Input is not a valid number!")
-                .Must(BeValidRange2).WithMessage("Input is not a valid number!");
-            RuleFor(calculator => calculator.UserValue2)
-                .Cascade(CascadeMode.Stop)
-                .Must(IsValidDouble).WithMessage("Input is not a valid number!")
-                .Must(BeValidRange).WithMessage("Input is not a valid number!");
+                .Must(BeValidRange).WithMessage("Input is not in valid range!")
+                .Must(NotBeZeroForDivision).WithMessage("Zero division is not allowed!");
+
         }
 
-        private bool IsValidDouble(string input)
+        private bool IsValidDouble(CalculatorModel calculator)
         {
-            return double.TryParse(input, out _);
+            bool isValue1Double = double.TryParse(calculator.UserValue1, out _);
+            bool isValue2Double = double.TryParse(calculator.UserValue2, out _);
+            if( (isValue2Double) && (isValue2Double))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        private bool BeValidRange(string input)
+        private bool BeValidRange(CalculatorModel calculator)
         {
-            double value = double.Parse(input);
-            if ((value == 0) || (value > 10000) || (value < -10000) )
+            double value = double.Parse(calculator.UserValue2);
+            if ( (value > 10000) || (value < -10000))
             {
                 return false;
             }
@@ -42,10 +58,10 @@ namespace ThreeInOne
             }
         }
 
-        private bool BeValidRange2(string input)
+        private bool NotBeZeroForDivision(CalculatorModel calculator)
         {
-            double value = double.Parse(input);
-            if ( (value > 10000) || (value < -10000))
+            string calculationChoice = IntegerToOperation[calculator.CalculationChoice];
+            if( (calculationChoice == "Kvoten") && ( double.Parse(calculator.UserValue2) == 0) )
             {
                 return false;
             }

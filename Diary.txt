@@ -27,3 +27,25 @@ på mina menyer.
 
 20250307:
 lagt till menymodel och menyvalidator för att sköta felinmatning i menyerna.
+
+20250311:
+Jag har idag lagt till fluent validation till alla menyer. Med detta så är alla användarinmatning nu felhanterad och jag har
+laddat upp det till en ny branch som heter "inputHandling" på Github.
+
+20250312:
+Jag har idag skapat mina databastabeller och tillhörande databas med EFCore.
+
+20250314:
+Jag jobbade med mer förberedande arbete av databasen och lite omstrukturering.
+
+20250315:
+Idag lade jag till databashantering med read och create till Sten sax Påse.
+
+20250316:
+Jag har idag lagt till databashanteringen CRUD för Shapes appen.
+
+20250319:
+Jag lade till funktionerna update och delete till shapes-klassen.
+
+20250321:
+Jag har nu också lagt till update och delete i kalkylatorklassen.

@@ -11,27 +11,43 @@ using Shapes;
 using Calculator;
 using RockPaperScissors;
 
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using ThreeInOne.Data;
+using ThreeInOne.DatabaseServices;
+
 namespace ThreeInOne
 {
     internal class ThreeInOneApp
     {
-        public static bool ErrorMessageDiplay(ValidationResult vResults)
+        public static bool ErrorMessageDiplay(ValidationResult validationResults)
         {
-            if (vResults.IsValid == false)
+            if (validationResults.IsValid == false)
             {
-                foreach (ValidationFailure failure in vResults.Errors)
+                foreach (ValidationFailure failure in validationResults.Errors)
                 {
                     Console.WriteLine($"{failure.ErrorMessage}");
                 }
             }
 
-            return vResults.IsValid;
+            return validationResults.IsValid;
         }
         public void Run()
         {
+            IConfigurationBuilder builder = new ConfigurationBuilder().AddJsonFile($"appsettings.json", true, true);
+            IConfigurationRoot config = builder.Build();
+            DatabaseHandler.options = new DbContextOptionsBuilder<ThreeInOneAppDbContext>();
+            string connectionString = config.GetConnectionString("DefaultConnection");
+            DatabaseHandler.options.UseSqlServer(connectionString);
+
+            using (var dbContext = new ThreeInOneAppDbContext(DatabaseHandler.options.Options))
+            {
+                dbContext.Database.Migrate();
+            }
+
             while (true)
             {
-
+                Console.WriteLine("Three In One App");
                 Menu mainMenu = new Menu();
                 mainMenu.NrChoices = new List<string> { "1","2","3","0" };
                 mainMenu.TextChoices = new List<string> {
@@ -51,6 +67,7 @@ namespace ThreeInOne
                 //Console.WriteLine("0 AVSLUTA\n");
 
                 string choice = Console.ReadLine();
+                Console.Clear();
 
                 MenuModel myMenuModel = new MenuModel(mainMenu.NrChoices.ToArray(),choice);
                 MenuValidator myMenuValidator = new MenuValidator();
@@ -79,7 +96,7 @@ namespace ThreeInOne
 
                             RockPaperScissorsApp app3 = new RockPaperScissorsApp();
                             app3.Run();
-
+                            Console.Clear();
                             break;
 
 

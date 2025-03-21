@@ -86,14 +86,6 @@ namespace ThreeInOne
         public TriangleValidator()
         {
 
-            RuleFor(triangle => triangle.Width)
-                .Cascade(CascadeMode.Stop)
-                .Must(IsValidDouble).WithMessage("Input is not a valid number!")
-                .Must(BeValidRange).WithMessage("Input is not a valid number!");
-            RuleFor(triangle => triangle.Height)
-                .Cascade(CascadeMode.Stop)
-                .Must(IsValidDouble).WithMessage("Input is not a valid number!")
-                .Must(BeValidRange).WithMessage("Input is not a valid number!");
             RuleFor(triangle => triangle.SideA)
                 .Cascade(CascadeMode.Stop)
                 .Must(IsValidDouble).WithMessage("Input is not a valid number!")
@@ -102,10 +94,11 @@ namespace ThreeInOne
                 .Cascade(CascadeMode.Stop)
                 .Must(IsValidDouble).WithMessage("Input is not a valid number!")
                 .Must(BeValidRange).WithMessage("Input is not a valid number!");
-            RuleFor(triangle => triangle.SideC)
+            RuleFor(triangle => triangle.AngleInDegrees)
                 .Cascade(CascadeMode.Stop)
                 .Must(IsValidDouble).WithMessage("Input is not a valid number!")
-                .Must(BeValidRange).WithMessage("Input is not a valid number!");
+                .Must(BeValidRange).WithMessage("Input is not a valid number!")
+                .Must(BeValidDegree).WithMessage("The degree range must be between 0 and 360!");
         }
 
         private bool IsValidDouble(string input)
@@ -125,6 +118,20 @@ namespace ThreeInOne
                 return true;
             }
         }
+        private bool BeValidDegree(string input)
+        {
+            double value = double.Parse(input);
+            if ((value <= 0) || (value >= 360))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+
     }
     public class RhombusValidator : AbstractValidator<RhombusModel>
     {

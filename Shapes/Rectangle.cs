@@ -4,16 +4,21 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Shapes
 {
     public class Rectangle
     {
+        public string Name { get; set; } = "Rectangle";
         // Deklarerar vidd och höjd
         public double Width { get; set; }
         public double Height { get; set; }
 
         public DateTime CurrentDateTime { get; set; }
+
+        public double PerimeterResult { get; set; }
+        public double AreaResult{ get; set; }
         public Rectangle(double width, double height)
         {
             //ger dem värde uteifrån nu i shapesAppen 
@@ -23,12 +28,14 @@ namespace Shapes
         }
         public double Area()
         {
-           // Här använder jag dem
-            return Width * Height;
+            // Här använder jag dem
+            AreaResult = Math.Round(Width * Height,2);
+            return AreaResult;
         }
         public double Perimeter()
         {
-            return (Height + Width) * 2;
+            PerimeterResult = Math.Round((Height + Width) * 2,2);
+            return PerimeterResult;
         }
         public void Display()
         {

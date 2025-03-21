@@ -9,36 +9,49 @@ namespace Shapes
 {
     internal class Triangle
     {
+        public string Name { get; set; } = "Triangle";
         public double Width { get; set; }
         public double Height { get; set; }
         public double SideA { get; set; }
         public double SideB { get; set; }
+
         public double SideC { get; set; }
+
+        public double AngleInDegrees { get; set; }
         public DateTime CurrentDateTime { get; set; }
-        public Triangle(double width,double height, double sideA, double sideB, double sideC) 
+
+        public double PerimeterResult { get; set; }
+        public double AreaResult { get; set; }
+        public Triangle(double sideA, double sideB,double angleInDegrees) 
         {
             CurrentDateTime = DateTime.Now;
-            Width = width;
-            Height = height;
             SideA = sideA;
             SideB = sideB;
-            SideC = sideC;
+            AngleInDegrees = angleInDegrees;
 
-
-       
         }
         public double Area()
         {
-            return (Width * Height) / 2;
+            double angleInDegrees = this.AngleInDegrees;
+            double angleInRadians = angleInDegrees * (Math.PI / 180);
+            //Law of Cosines
+            double sideC = Math.Sqrt( SideA*SideA + SideB*SideB - 2*SideA*SideB*Math.Cos(angleInRadians) );
+            SideC = sideC;
+
+            //Herons formula
+            double s = (SideA+SideB+SideC) / 2;
+            double areaNoSquareRoot = s * (s - SideA) * (s - SideB) * (s - SideC);
+            AreaResult = Math.Round( Math.Sqrt( areaNoSquareRoot ), 2 );
+            return AreaResult;
         }
         public double Perimeter() 
         {
-            return SideA + SideB + SideC;    
+            PerimeterResult = Math.Round(SideA + SideB + SideC, 2);
+            return PerimeterResult;    
         }
         public void Display()
         {
             Console.WriteLine($"{CurrentDateTime.ToString("yyyy-MM-dd HH:mm:ss")}");
-            Console.WriteLine($"Triangelns bas: {Width} l.e. och höjden: {Height} l.e.");
             Console.WriteLine($"Arean = {Area()} l.e.");
             Console.WriteLine($"Omkretsen = {Perimeter()} l.e.");
         }

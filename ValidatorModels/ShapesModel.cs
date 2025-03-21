@@ -33,18 +33,15 @@ namespace ThreeInOne
     }
     public class TriangleModel
     {
-        public string Width { get; set; }
-        public string Height { get; set; }
+
         public string SideA { get; set; }
         public string SideB { get; set; }
-        public string SideC { get; set; }
-        public TriangleModel(string width, string height, string sideA, string sideB, string sideC)
+        public string AngleInDegrees { get; set; }
+        public TriangleModel(string sideA, string sideB, string angleInDegrees)
         {
-            Width = width;
-            Height = height;
             SideA = sideA;
             SideB = sideB;
-            SideC = sideC;
+            AngleInDegrees = angleInDegrees;
         }
     }
     public class RhombusModel

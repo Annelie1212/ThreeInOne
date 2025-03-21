@@ -11,10 +11,13 @@ namespace ThreeInOne
     {
         public string UserValue1 { get; set; }
         public string UserValue2 { get; set; }
-        public CalculatorModel(string userValue1, string userValue2)
+
+        public string CalculationChoice {  get; set; }
+        public CalculatorModel(string userValue1, string userValue2,string calculationChoice)
         {
             this.UserValue1 = userValue1;
             this.UserValue2 = userValue2;
+            this.CalculationChoice = calculationChoice;
         }
     }
     
