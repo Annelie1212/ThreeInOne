@@ -20,10 +20,11 @@ namespace ThreeInOne
         public void Display()
         {
             Console.WriteLine(AppName);
-            for (int i = 0; i < NrChoices.Count; i++)
+            for (int i = 0; i < NrChoices.Count-1; i++)
             {
                 Console.WriteLine($"{NrChoices[i]}{TextChoices[i]}");
             }
+            Console.Write($"{NrChoices[NrChoices.Count - 1]}{TextChoices[NrChoices.Count - 1]}");
         }
         public static bool ErrorMessageDiplay(ValidationResult validationResults)
         {
@@ -31,7 +32,15 @@ namespace ThreeInOne
             {
                 foreach (ValidationFailure failure in validationResults.Errors)
                 {
-                    Console.WriteLine($"{failure.PropertyName}:{failure.ErrorMessage}");
+                    if (failure.PropertyName == "")
+                    {
+                        Console.WriteLine($"{failure.ErrorMessage}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{failure.PropertyName}:{failure.ErrorMessage}");
+                    }
+                    
                 }
             }
 

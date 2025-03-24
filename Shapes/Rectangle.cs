@@ -40,7 +40,7 @@ namespace Shapes
         public void Display()
         {
            
-            Console.WriteLine($"{CurrentDateTime.ToString("yyyy-MM-dd HH:mm:ss")}");
+            Console.WriteLine($"\n{CurrentDateTime.ToString("yyyy-MM-dd HH:mm:ss")}");
             Console.WriteLine($"Rektangelns Bas: = {Width} l.e., Höjd: = {Height} l.e.");
             Console.WriteLine($"Arean är = {Area()} l.e.");
             Console.WriteLine($"Omkretsen är = {Perimeter()} l.e.");

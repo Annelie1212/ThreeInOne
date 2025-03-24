@@ -23,5 +23,8 @@ namespace ThreeInOne.Data
         [Required]
         public double AverageWin { get; set; }
         public List<RockPaperScissorsRoundData> Rounds { get; set; } = new List<RockPaperScissorsRoundData>();
+        [Required]
+
+        public string PlayerName { get; set; }
     }
 }

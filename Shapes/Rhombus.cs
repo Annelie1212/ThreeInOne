@@ -70,7 +70,7 @@ namespace Shapes
         }
         public void Display1()
         {
-            Console.WriteLine($"{CurrentDateTime.ToString("yyyy-MM-dd HH:mm:ss")}");
+            Console.WriteLine($"\n{CurrentDateTime.ToString("yyyy-MM-dd HH:mm:ss")}");
             Console.WriteLine($"Första rombens bas är: {Width1} och höjden är: {Height1}");
             Console.WriteLine($"Arean = {Area()} l.e.");
             Console.WriteLine($"Omkretsen = {Perimeter()} l.e.");
@@ -78,7 +78,7 @@ namespace Shapes
         }
         public void Display2()
         {
-            Console.WriteLine($"{CurrentDateTime.ToString("yyyy-MM-dd HH:mm:ss")}");
+            Console.WriteLine($"\n{CurrentDateTime.ToString("yyyy-MM-dd HH:mm:ss")}");
             Console.WriteLine($"Andra rombens första diagonal är: {Diagonal1} och andra diagonalen är: {Diagonal2}");
             Console.WriteLine($"Arean = {DiagonalArea()} l.e.");
             Console.WriteLine($"Omkretsen = {DiagonalPerimeter()} l.e.");

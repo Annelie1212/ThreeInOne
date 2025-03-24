@@ -34,12 +34,12 @@ namespace ThreeInOne
         }
         public void Run()
         {
+            //Boiler plate kod som behövs för att initiera (starta) databasen och synka migreringar.
             IConfigurationBuilder builder = new ConfigurationBuilder().AddJsonFile($"appsettings.json", true, true);
             IConfigurationRoot config = builder.Build();
             DatabaseHandler.options = new DbContextOptionsBuilder<ThreeInOneAppDbContext>();
             string connectionString = config.GetConnectionString("DefaultConnection");
             DatabaseHandler.options.UseSqlServer(connectionString);
-
             using (var dbContext = new ThreeInOneAppDbContext(DatabaseHandler.options.Options))
             {
                 dbContext.Database.Migrate();
@@ -47,59 +47,38 @@ namespace ThreeInOne
 
             while (true)
             {
-                Console.WriteLine("Three In One App");
-                Menu mainMenu = new Menu();
-                mainMenu.NrChoices = new List<string> { "1","2","3","0" };
-                mainMenu.TextChoices = new List<string> {
-                    "Shapes App",
-                    "Calculator App",
-                    "Rock Paper Scissors App",
-                    "AVSULTA"
-                };
+                //Skapar ett menyobjekt.
+                Menu mainMenu = new Menu(MenuData.MainMenuNr, MenuData.MainMenu);
+                //Settar menytiteln.
+                mainMenu.AppName = MenuData.MainMenuName;
+                //VIsar menyn.
                 mainMenu.Display();
-
-
-
-                //Console.WriteLine("MENY\nVälj en siffra ur menyn");
-                //Console.WriteLine("1 Shapes App");
-                //Console.WriteLine("2 Calculator App");
-                //Console.WriteLine("3 Rock Paper Scissors App");
-                //Console.WriteLine("0 AVSLUTA\n");
-
                 string choice = Console.ReadLine();
                 Console.Clear();
 
-                MenuModel myMenuModel = new MenuModel(mainMenu.NrChoices.ToArray(),choice);
-                MenuValidator myMenuValidator = new MenuValidator();
-                ValidationResult ValidationResults = myMenuValidator.Validate(myMenuModel);
-                bool isInputValid = ErrorMessageDiplay(ValidationResults);
-                if (isInputValid)
-                {
+                //Skickar in menymodel och användarinmatning till FluentValidation.
+                AppValidation appValidation = new AppValidation(new MenuModel(mainMenu.NrChoices.ToArray(),
+                                                                              choice));
+                bool isMenuInputValid = appValidation.ValidateMenuModel();
 
+                if (isMenuInputValid)
+                {
                     switch (int.Parse(choice))
                     {
-
                         case 1:
-
                             ShapesApp app1 = new ShapesApp();
                             app1.Run();
                             break;
 
                         case 2:
-
                             CalculatorApp app2 = new CalculatorApp();
                             app2.Run();
                             break;
-
-
                         case 3:
-
                             RockPaperScissorsApp app3 = new RockPaperScissorsApp();
                             app3.Run();
                             Console.Clear();
                             break;
-
-
                         default:
                             break;
                     }

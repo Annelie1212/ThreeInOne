@@ -20,12 +20,12 @@ namespace ThreeInOne
 
             RuleFor(rectangle => rectangle.Width)
                 .Cascade(CascadeMode.Stop)
-                .Must(IsValidDouble).WithMessage("Input is not a valid number!")
-                .Must(BeValidRange).WithMessage("Input is not a valid number!");
+                .Must(IsValidDouble).WithMessage("Det inmatade valet är inte ett giltigt tal!")
+                .Must(BeValidRange).WithMessage("Det inmatade valet är inte ett giltigt tal!");
             RuleFor(rectangle => rectangle.Height)
                 .Cascade(CascadeMode.Stop)
-                .Must(IsValidDouble).WithMessage("Input is not a valid number!")
-                .Must(BeValidRange).WithMessage("Input is not a valid number!");
+                .Must(IsValidDouble).WithMessage("Det inmatade valet är inte ett giltigt tal!")
+                .Must(BeValidRange).WithMessage("Det inmatade valet är inte ett giltigt tal!");
         }
 
         private bool IsValidDouble(string input)
@@ -54,12 +54,12 @@ namespace ThreeInOne
 
             RuleFor(paralellogram => paralellogram.Width)
                 .Cascade(CascadeMode.Stop)
-                .Must(IsValidDouble).WithMessage("Input is not a valid number!")
-                .Must(BeValidRange).WithMessage("Input is not a valid number!");
+                .Must(IsValidDouble).WithMessage("Det inmatade valet är inte ett giltigt tal!")
+                .Must(BeValidRange).WithMessage("Det inmatade valet är inte ett giltigt tal");
             RuleFor(paralellogram => paralellogram.Height)
                 .Cascade(CascadeMode.Stop)
-                .Must(IsValidDouble).WithMessage("Input is not a valid number!")
-                .Must(BeValidRange).WithMessage("Input is not a valid number!");
+                .Must(IsValidDouble).WithMessage("Det inmatade valet är inte ett giltigt tal!")
+                .Must(BeValidRange).WithMessage("Det inmatade valet är inte ett giltigt tal!");
         }
 
         private bool IsValidDouble(string input)
@@ -88,17 +88,17 @@ namespace ThreeInOne
 
             RuleFor(triangle => triangle.SideA)
                 .Cascade(CascadeMode.Stop)
-                .Must(IsValidDouble).WithMessage("Input is not a valid number!")
-                .Must(BeValidRange).WithMessage("Input is not a valid number!");
+                .Must(IsValidDouble).WithMessage("Det inmatade valet är inte ett giltigt tal!")
+                .Must(BeValidRange).WithMessage("Det inmatade valet är inte ett giltigt tal!");
             RuleFor(triangle => triangle.SideB)
                 .Cascade(CascadeMode.Stop)
-                .Must(IsValidDouble).WithMessage("Input is not a valid number!")
-                .Must(BeValidRange).WithMessage("Input is not a valid number!");
+                .Must(IsValidDouble).WithMessage("Det inmatade valet är inte ett giltigt tal!")
+                .Must(BeValidRange).WithMessage("Det inmatade valet är inte ett giltigt tal!");
             RuleFor(triangle => triangle.AngleInDegrees)
                 .Cascade(CascadeMode.Stop)
-                .Must(IsValidDouble).WithMessage("Input is not a valid number!")
-                .Must(BeValidRange).WithMessage("Input is not a valid number!")
-                .Must(BeValidDegree).WithMessage("The degree range must be between 0 and 360!");
+                .Must(IsValidDouble).WithMessage("Det inmatade valet är inte ett giltigt tal!")
+                .Must(BeValidRange).WithMessage("Det inmatade valet är inte ett giltigt tal!")
+                .Must(BeValidDegree).WithMessage("Du måste ange ett gradantal mellan 0 och 360!");
         }
 
         private bool IsValidDouble(string input)
@@ -140,20 +140,20 @@ namespace ThreeInOne
 
             RuleFor(rhombus => rhombus.Width)
                 .Cascade(CascadeMode.Stop)
-                .Must(IsValidDouble).WithMessage("Input is not a valid number!")
-                .Must(BeValidRange).WithMessage("Input is not a valid number!");
+                .Must(IsValidDouble).WithMessage("Det inmatade valet är inte ett giltigt tal!")
+                .Must(BeValidRange).WithMessage("Det inmatade valet är inte ett giltigt tal!");
             RuleFor(rhombus => rhombus.Height)
                 .Cascade(CascadeMode.Stop)
-                .Must(IsValidDouble).WithMessage("Input is not a valid number!")
-                .Must(BeValidRange).WithMessage("Input is not a valid number!");
+                .Must(IsValidDouble).WithMessage("Det inmatade valet är inte ett giltigt tal!")
+                .Must(BeValidRange).WithMessage("Det inmatade valet är inte ett giltigt tal!");
             RuleFor(rhombus => rhombus.Diagonal1)
                 .Cascade(CascadeMode.Stop)
-                .Must(IsValidDouble).WithMessage("Input is not a valid number!")
-                .Must(BeValidRange).WithMessage("Input is not a valid range!");
+                .Must(IsValidDouble).WithMessage("Det inmatade valet är inte ett giltigt tal!")
+                .Must(BeValidRange).WithMessage("Det inmatade talet är inte inom det giltiga spannet!");
             RuleFor(rhombus => rhombus.Diagonal2)
                 .Cascade(CascadeMode.Stop)
-                .Must(IsValidDouble).WithMessage("Input is not a valid number!")
-                .Must(BeValidRange).WithMessage("Input is not a valid range!");
+                .Must(IsValidDouble).WithMessage("Det inmatade valet är inte ett giltigt tal!")
+                .Must(BeValidRange).WithMessage("Det inmatade valet är inte inom det giltiga spannet!");
         }
 
         private bool IsValidDouble(string input)

@@ -17,8 +17,8 @@ namespace ThreeInOne
 
             RuleFor(rps => rps.UserValue1)
                 .Cascade(CascadeMode.Stop)
-                .Must(IsValidDouble).WithMessage("Input is not a valid number!")
-                .Must(BeValidRange).WithMessage("Input is not a valid range!");
+                .Must(IsValidDouble).WithMessage("Det inmatade valet är inte ett giltigt tal!")
+                .Must(BeValidRange).WithMessage("Det inmatade valet är inte inom det giltiga spannet!");
         }
 
         private bool IsValidDouble(string input)

@@ -25,9 +25,9 @@ namespace ThreeInOne
 
             RuleFor(calculator => calculator)
                 .Cascade(CascadeMode.Stop)
-                .Must(IsValidDouble).WithMessage("Input is not a valid number!")
-                .Must(BeValidRange).WithMessage("Input is not in valid range!")
-                .Must(NotBeZeroForDivision).WithMessage("Zero division is not allowed!");
+                .Must(IsValidDouble).WithMessage("Det inmatade valet är inte ett giltigt tal!")
+                .Must(BeValidRange).WithMessage("Det inmatade valet är inte inom det giltiga spannet!")
+                .Must(NotBeZeroForDivision).WithMessage("Du kan inte dela med noll!");
 
         }
 

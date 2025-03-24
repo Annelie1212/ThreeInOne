@@ -33,7 +33,7 @@ namespace Shapes
         }
         public void Display()
         {
-            Console.WriteLine($"{CurrentDateTime.ToString("yyyy-MM-dd HH:mm:ss")}");
+            Console.WriteLine($"\n{CurrentDateTime.ToString("yyyy-MM-dd HH:mm:ss")}");
             Console.WriteLine($"Parallellogrammets bas: {Width} l.e. och höjden: {Height} l.e.");
             Console.WriteLine($"Arian = {Area()} l.e.");
             Console.WriteLine($"Omkretsen = {Perimeter()} l.e.");

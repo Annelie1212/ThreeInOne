@@ -18,6 +18,13 @@ namespace RockPaperScissors
     internal class RockPaperScissors
     {
 
+        Dictionary<int, string> Move = new Dictionary<int, string>()
+        {
+            {1,"sten" },
+            {2,"sax" },
+            {3,"påse" }
+        };
+
         public int UserValue1 { get; set; }
 
         public int ComputerValue1 { get; set; }
@@ -27,9 +34,9 @@ namespace RockPaperScissors
         public int ComputerValue3 { get; set; }
 
         //TODO LOOK HERE
-        public int computerPoints { get; set; }
+        public int ComputerPoints { get; set; }
         //TODO LOOK HERE STATIC??
-        public int playerPoints { get; set; }
+        public int PlayerPoints { get; set; }
 
         public DateTime CurrentDateTime { get; set; }
 
@@ -59,6 +66,8 @@ namespace RockPaperScissors
         public int Win { get; set; }
         public int Loss { get; set; }
         public int Tie { get; set; }
+
+        public string PlayerName { get; set; }
         public RockPaperScissors()
         {
             DateTime rawDateTime = DateTime.Now;
@@ -71,44 +80,44 @@ namespace RockPaperScissors
         {
             if (userValue == computerValue)
             {
-                computerPoints += 0;
-                playerPoints += 0;
+                ComputerPoints += 0;
+                PlayerPoints += 0;
                 return "Ställningen blev lika";
             }   
             else if ( userValue == "sten" && computerValue == "sax")
             {
-                computerPoints += 0;
-                playerPoints += 1;
+                ComputerPoints += 0;
+                PlayerPoints += 1;
                 return "Spelaren vann!";
             }
             else if (userValue == "sax" && computerValue == "påse")
             {
-                computerPoints += 0;
-                playerPoints += 1;
+                ComputerPoints += 0;
+                PlayerPoints += 1;
                 return "Spelaren vann!";
             }
             else if (userValue == "påse" && computerValue == "sten")
             {
-                computerPoints += 0;
-                playerPoints += 1;
+                ComputerPoints += 0;
+                PlayerPoints += 1;
                 return "Spelaren vann!";
             }
             else
             {
-                computerPoints += 1;
-                playerPoints += 0;
+                ComputerPoints += 1;
+                PlayerPoints += 0;
                 return "Datorn vann";
             }            
         }
 
         public void ShowResults()
         {
-            Console.WriteLine("SLUTRESULTAT");
+            Console.WriteLine("\nSLUTRESULTAT\n");
 
-            Console.WriteLine($"Spelaren vann{playerPoints} gånger.");
-            Console.WriteLine($"Datorn vann{computerPoints} gånger.");
+            Console.WriteLine($"Spelaren vann {PlayerPoints} gånger.");
+            Console.WriteLine($"Datorn vann {ComputerPoints} gånger.");
 
-            if (computerPoints > playerPoints)
+            if (ComputerPoints > PlayerPoints)
             {
                 this.Win = 0;
                 this.Loss = 1;
@@ -116,7 +125,7 @@ namespace RockPaperScissors
 
                 Console.Write("Datorn vann!");
             }
-            else if (computerPoints < playerPoints)
+            else if (ComputerPoints < PlayerPoints)
             {
                 this.Win = 1;
                 this.Loss = 0;
@@ -138,147 +147,146 @@ namespace RockPaperScissors
             
         }
 
-        public void PlayMatch()
+        public bool PlayMatch()
         {
-            Dictionary<int, string> move = new Dictionary<int, string>();
-            move[1] = "sten";
-            move[2] = "sax";
-            move[3] = "påse";
+            Menu insertNameMenu = new Menu(MenuData.InsertNameNr, MenuData.InsertNameMenu);
+            insertNameMenu.Display();
+            string playerName = Console.ReadLine();
 
-            //Console.WriteLine("Sten Sax Påse");
-            //Console.WriteLine("Välj ditt drag ur menyn\n");
-            //Console.WriteLine("1 Sten");
-            //Console.WriteLine("2 Sax");
-            //Console.WriteLine("3 Påse\n");
+            AppValidation playerValidation = new AppValidation(new PlayerModel(playerName));
+            bool isPlayerNameInputValid = playerValidation.ValidatePlayerModel();
 
-            Menu rockPaperScissorsMenu = new Menu();
-            rockPaperScissorsMenu.AppName = "Sten Sax Påse" + "\n";
-            rockPaperScissorsMenu.NrChoices = new List<string> { "1", "2", "3" };
-            rockPaperScissorsMenu.TextChoices = new List<string> {
-                    "Sten",
-                    "Sax",
-                    "Påse"
-                };
-            rockPaperScissorsMenu.Display();
-
-            Random random = new Random();
-
-            for (int roundNr = 0; roundNr < 3; roundNr++)
+            if (isPlayerNameInputValid) 
             {
-                bool playRoundBool = PlayRound(move, random,roundNr);
-                if (playRoundBool == false)
+
+                this.PlayerName = playerName;
+
+                Random random = new Random();
+
+                for (int roundNr = 0; roundNr < 3; roundNr++)
                 {
-                    //Rundan backar en runda om spelaren matar in fel.
-                    roundNr--;
-                }
-            }
-
-            #region all rounds
-            //Console.Write("Ange ditt första drag: " + "\n");
-            //int value1 = int.Parse(Console.ReadLine());
-            //Console.WriteLine("spelarens drag: "+move[value1]+"\n");
-
-            //int randomNumber1 = random.Next(1, 4);
-            //Console.WriteLine("Datorns drag: "+move[randomNumber1]+"\n");
-            //Console.WriteLine(RockPaperScissors.Winner(move[value1],move[randomNumber1]));
-
-
-            //Console.Write("Ange ditt andra drag: ");
-            //int value2 = int.Parse(Console.ReadLine());
-            //Console.WriteLine("spelarens drag: " + move[value2]+"\n");
-
-            //int randomNumber2 = random.Next(1, 4);
-            //Console.WriteLine("Datorns drag: "+move[randomNumber2]+"\n");
-            //Console.WriteLine(RockPaperScissors.Winner(move[value2], move[randomNumber2]));
-
-            //Console.Write("Ange ditt tredje drag: ");
-            //int value3 = int.Parse(Console.ReadLine());
-            //Console.WriteLine("spelarens drag: " + move[value3]+"\n");
-
-            //int randomNumber3 = random.Next(1, 4);
-            //Console.WriteLine("Datorns drag: "+move[randomNumber3]+"\n");
-            //Console.WriteLine(RockPaperScissors.Winner(move[value3], move[randomNumber3]));
-            #endregion
-
-            this.ShowResults();
-
-
-
-            //DATABASE
-            using (var dbContext = new ThreeInOneAppDbContext(DatabaseHandler.options.Options))
-            {
-                //READ
-                List<double> wins = new List<double>();
-                double average = 0;
-                foreach (var matchData in dbContext.RockPaperScissorsMatchData)
-                {
-                    //Console.WriteLine(matchData.Win);
-                    wins.Add(matchData.Win);
-                }
-                wins.Add(this.Win);
-
-                //CREATE
-                dbContext.RockPaperScissorsMatchData.Add(new RockPaperScissorsMatchData
-                {
-                    DateTime = this.CurrentDateTime,
-                    Win = this.Win,
-                    Loss = this.Loss,
-                    Tie = this.Tie,
-                    AverageWin = wins.Average()
-                });
-                dbContext.SaveChanges();
-
-                //READs last row from matchdata.
-                //Från stack overflow
-                int currentMatchId = int.Parse(dbContext.RockPaperScissorsMatchData
-                                            .OrderByDescending(match => match.MatchId)
-                                            .Select(match => match.MatchId)
-                                            .First().ToString());
-
-                //CREATE ROUND
-                for (int i = 0; i < 3; i++)
-                {
-                    int tempWin = 0;
-                    int tempLoss = 0;
-                    int tempTie = 0;
-                    if (this.RoundResults[i]=="win")
+                    bool playRoundBool = PlayRound(Move, random,roundNr);
+                    if (playRoundBool == false)
                     {
-                        tempWin = 1;
-                        tempLoss = 0;
-                        tempTie = 0;
-                    }else if(this.RoundResults[i] == "loss")
-                    {
-                        tempWin = 0;
-                        tempLoss = 1;
-                        tempTie = 0;
-                    }else if(this.RoundResults[i] == "tie")
-                    {
-                        tempWin = 0;
-                        tempLoss = 0;
-                        tempTie = 1;
+                        //Rundan backar en runda om spelaren matar in fel.
+                        roundNr--;
                     }
+                }
 
-                    dbContext.RockPaperScissorsRoundData.Add(new RockPaperScissorsRoundData
+                #region all rounds
+                //Console.Write("Ange ditt första drag: " + "\n");
+                //int value1 = int.Parse(Console.ReadLine());
+                //Console.WriteLine("spelarens drag: "+move[value1]+"\n");
+
+                //int randomNumber1 = random.Next(1, 4);
+                //Console.WriteLine("Datorns drag: "+move[randomNumber1]+"\n");
+                //Console.WriteLine(RockPaperScissors.Winner(move[value1],move[randomNumber1]));
+
+
+                //Console.Write("Ange ditt andra drag: ");
+                //int value2 = int.Parse(Console.ReadLine());
+                //Console.WriteLine("spelarens drag: " + move[value2]+"\n");
+
+                //int randomNumber2 = random.Next(1, 4);
+                //Console.WriteLine("Datorns drag: "+move[randomNumber2]+"\n");
+                //Console.WriteLine(RockPaperScissors.Winner(move[value2], move[randomNumber2]));
+
+                //Console.Write("Ange ditt tredje drag: ");
+                //int value3 = int.Parse(Console.ReadLine());
+                //Console.WriteLine("spelarens drag: " + move[value3]+"\n");
+
+                //int randomNumber3 = random.Next(1, 4);
+                //Console.WriteLine("Datorns drag: "+move[randomNumber3]+"\n");
+                //Console.WriteLine(RockPaperScissors.Winner(move[value3], move[randomNumber3]));
+                #endregion
+
+                this.ShowResults();
+
+                //DATABASE
+                using (var dbContext = new ThreeInOneAppDbContext(DatabaseHandler.options.Options))
+                {
+                    //READ
+                    List<double> wins = new List<double>();
+                    double average = 0;
+                    foreach (var matchData in dbContext.RockPaperScissorsMatchData)
                     {
-                        MatchId = currentMatchId,
+                        //Console.WriteLine(matchData.Win);
+                        wins.Add(matchData.Win);
+                    }
+                    wins.Add(this.Win);
+
+                    //CREATE
+                    dbContext.RockPaperScissorsMatchData.Add(new RockPaperScissorsMatchData
+                    {
                         DateTime = this.CurrentDateTime,
-                        Win = tempWin,
-                        Loss = tempLoss,
-                        Tie = tempTie,
-                        PlayerMove = this.PlayerMoves[i],
-                        ComputerMove = this.ComputerMoves[i]
+                        Win = this.Win,
+                        Loss = this.Loss,
+                        Tie = this.Tie,
+                        AverageWin = wins.Average(),
+                        PlayerName = this.PlayerName
                     });
                     dbContext.SaveChanges();
-                }
 
+                    //READs last row from matchdata.
+                    //Från stack overflow
+                    int currentMatchId = int.Parse(dbContext.RockPaperScissorsMatchData
+                                                .OrderByDescending(match => match.MatchId)
+                                                .Select(match => match.MatchId)
+                                                .First().ToString());
+
+                    //CREATE ROUND
+                    for (int i = 0; i < 3; i++)
+                    {
+                        int tempWin = 0;
+                        int tempLoss = 0;
+                        int tempTie = 0;
+                        if (this.RoundResults[i] == "win")
+                        {
+                            tempWin = 1;
+                            tempLoss = 0;
+                            tempTie = 0;
+                        }
+                        else if (this.RoundResults[i] == "loss")
+                        {
+                            tempWin = 0;
+                            tempLoss = 1;
+                            tempTie = 0;
+                        }
+                        else if (this.RoundResults[i] == "tie")
+                        {
+                            tempWin = 0;
+                            tempLoss = 0;
+                            tempTie = 1;
+                        }
+
+                        dbContext.RockPaperScissorsRoundData.Add(new RockPaperScissorsRoundData
+                        {
+                            MatchId = currentMatchId,
+                            DateTime = this.CurrentDateTime,
+                            Win = tempWin,
+                            Loss = tempLoss,
+                            Tie = tempTie,
+                            PlayerMove = this.PlayerMoves[i],
+                            ComputerMove = this.ComputerMoves[i]
+                        });
+                        dbContext.SaveChanges();
+
+                    }
+                }
+                return true;
             }
+            else
+            {
+                return false;
+            }
+            
         }
 
         //move är en dictionary som översätter talen 1,2,3 till sten sax påse.
         public bool PlayRound(Dictionary<int, string> move, Random random,int roundNr)
         {
-            Console.WriteLine();
-            Console.Write("Ange ditt drag: ");
+            Menu matchMenu = new Menu(MenuData.RPSMatchMenuNr, MenuData.RPSMatchMenu);
+            matchMenu.Display();
             string value1 = Console.ReadLine();
 
 
@@ -292,28 +300,26 @@ namespace RockPaperScissors
                 int valueInt = int.Parse(value1);
 
 
-                Console.WriteLine("Spelarens drag: " + move[valueInt]);
+                Console.WriteLine(MenuData.playersMove + move[valueInt]);
 
                 int randomNumber1 = random.Next(1, 4);
-                Console.WriteLine("Datorns drag: " + move[randomNumber1]);
+                Console.WriteLine(MenuData.computersMove + move[randomNumber1]);
 
                 string roundResult = Winner(move[valueInt], move[randomNumber1]);
                 //continue
                 //PlayerComputerRoundResults (win,loss,tie)
-                if (roundResult == "Spelaren vann!") { 
+                if (roundResult == MenuData.playerWins) { 
                     RoundResults[roundNr] = "win"; }
-                else if (roundResult == "Datorn vann") { 
+                else if (roundResult == MenuData.computerWins) { 
                     RoundResults[roundNr] = "loss"; }
-                else if (roundResult == "Ställningen blev lika") { 
+                else if (roundResult == MenuData.tie) { 
                     RoundResults[roundNr] = "tie"; }
                 
                 Console.WriteLine(roundResult);
 
-
-
                 this.PlayerMoves[roundNr] = move[valueInt];
                 this.ComputerMoves[roundNr] = move[randomNumber1];
-                Console.WriteLine();
+                //Console.WriteLine();
 
                 return true;
             }
@@ -326,12 +332,16 @@ namespace RockPaperScissors
         {
             using (ThreeInOneAppDbContext dbContext = new ThreeInOneAppDbContext(DatabaseHandler.options.Options))
             {
+                Console.WriteLine("MATCHERNAS RESULTAT\n");
                 foreach (var matchData in dbContext.RockPaperScissorsMatchData)
                 {
-                    Console.WriteLine($"DateTime: {matchData.DateTime}");
-                    Console.WriteLine($"Namn: {"Annelie"/*.Name*/}");
-                    Console.WriteLine($"MatchId: {matchData.MatchId}");
-                    Console.WriteLine($"Win: {matchData.Win}");
+                    Console.WriteLine($"Datum: {matchData.DateTime}");
+                    Console.WriteLine($"Namn: {matchData.PlayerName}");
+                    Console.WriteLine($"Match-ID: {matchData.MatchId}");
+                    Console.WriteLine($"Vinst: {matchData.Win}");
+                    Console.WriteLine($"Förlust: {matchData.Loss}");
+                    Console.WriteLine($"Oavgjort: {matchData.Tie}");
+                    Console.WriteLine($"Total medelvinst (för alla spelare sammanlagt): {matchData.AverageWin}");
                     Console.WriteLine("====================");
                 }
             }
@@ -339,23 +349,84 @@ namespace RockPaperScissors
 
         public void ShowTotalRounds()
         {
+            Console.WriteLine("RESULTAT FÖR ALLA RUNDOR\n");
             using (ThreeInOneAppDbContext dbContext = new ThreeInOneAppDbContext(DatabaseHandler.options.Options))
             {
                 int rowNr = 0;
                 foreach (var roundData in dbContext.RockPaperScissorsRoundData)
                 {
-                    Console.WriteLine($"DateTime: {roundData.DateTime}");
-                    Console.WriteLine($"Namn: {"Annelie"/*.Name*/}");
-                    Console.WriteLine($"MatchId: {roundData.MatchId}");
-                    Console.WriteLine($"Win: {roundData.Win}");
+                    Console.WriteLine($"Datum: {roundData.DateTime}");
+                    Console.WriteLine($"Match-ID: {roundData.MatchId}");
+                    Console.WriteLine($"Runda-ID: {roundData.MatchId}");
+                    Console.WriteLine($"Vinst: {roundData.Win}");
+                    Console.WriteLine($"Förlust: {roundData.Loss}");
+                    Console.WriteLine($"Oavgjort: {roundData.Tie}");
+                    Console.WriteLine($"Spelardrag: {roundData.PlayerMove}");
+                    Console.WriteLine($"DatorDrag: {roundData.ComputerMove}");
                     rowNr++;
+                    Console.WriteLine("");
                     if (rowNr%3 ==0)
                     {
                         Console.WriteLine("====================");
 
                     }
+                }
+            }
+        }
+
+        public void ShowPlayerResults()
+        {
+            Console.WriteLine("SPELARNAS RESULTAT\n");
+            using (ThreeInOneAppDbContext dbContext = new ThreeInOneAppDbContext(DatabaseHandler.options.Options))
+            {
+                //Namn
+                //Antal vinster: 12
+                //Vinstandel: 5%
+                //-------------------
+
+                List<string> nameList = new List<string>();
+                Dictionary<string,int> winDictionary = new Dictionary<string,int>();
+                Dictionary<string, int> lossDictionary = new Dictionary<string, int>();
+                Dictionary<string, int> tieDictionary = new Dictionary<string, int>();
+
+                foreach (var matchData in dbContext.RockPaperScissorsMatchData)
+                {
+                    string tempName = matchData.PlayerName;
+                    if (winDictionary.ContainsKey(tempName))
+                    {
+                        winDictionary[tempName] += matchData.Win;
+                        
+                    }if(lossDictionary.ContainsKey(tempName))
+                    {
+                        lossDictionary[tempName] += matchData.Loss;
+                    }
+                    if(tieDictionary.ContainsKey(tempName))
+                    {
+                        tieDictionary[tempName] += matchData.Tie;
+                    }
+                    else
+                    {
+                        winDictionary[tempName] = matchData.Win;
+                        lossDictionary[tempName] = matchData.Loss;
+                        tieDictionary[tempName] = matchData.Tie;
+                    }
+                }
+                nameList = winDictionary.Keys.ToList();
+
+                foreach(string name in nameList)
+                {
+                    Console.WriteLine($"Namn: {name}");
+                    double wins = winDictionary[name];
+                    double losses = lossDictionary[name];
+                    double ties = tieDictionary[name];
+
+                    Console.WriteLine($"Vinster: {wins}");
+                    Console.WriteLine($"Förluster: {losses}");
+                    Console.WriteLine($"Oavgjort: {ties}");
+                    double winRate = wins / (wins + losses + ties);
                     
-                    
+                    Console.WriteLine($"Vinstandel: {winRate*100:F2}%");
+                    Console.WriteLine("====================");
                 }
             }
         }

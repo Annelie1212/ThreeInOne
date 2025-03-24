@@ -26,21 +26,12 @@ namespace RockPaperScissors
             
             while (true)
             {
-                Menu rockPaperScissorsMenu = new Menu();
-                rockPaperScissorsMenu.AppName = "Sten Sax Påse"+"\n";
-                rockPaperScissorsMenu.NrChoices = new List<string> { "1", "2", "3",  "0"};
-                rockPaperScissorsMenu.TextChoices = new List<string> {
-                    "Play Game",
-                    "Show total round result",
-                    "Show total match results",
-                    "AVSLUTA"
-                };
-                rockPaperScissorsMenu.Display();
-
-
+                Menu rpsMenu = new Menu(MenuData.RPSMenuNr, MenuData.RPSMenu);
+                rpsMenu.AppName = MenuData.RPSMenuName;
+                rpsMenu.Display();
                 string choice = Console.ReadLine();
 
-                MenuModel myMenuModel = new MenuModel(rockPaperScissorsMenu.NrChoices.ToArray(), choice);
+                MenuModel myMenuModel = new MenuModel(rpsMenu.NrChoices.ToArray(), choice);
                 MenuValidator myMenuValidator = new MenuValidator();
                 ValidationResult validationResults = myMenuValidator.Validate(myMenuModel);
                 bool isMenuInputValid = Menu.ErrorMessageDiplay(validationResults);
@@ -62,20 +53,30 @@ namespace RockPaperScissors
                     switch (int.Parse(choice))
                     {
                         case 1:
-                            myRockPaperScissors.PlayMatch();
-                            Console.Write("\n" + "Tryck på valfri knapp för att fortsätta...");
-                            Console.ReadLine();
-                            Console.Clear();
+                            bool gameOver = false;
+                            while (gameOver != true)
+                            { 
+                                gameOver = myRockPaperScissors.PlayMatch();
+                                Console.Write(MenuData.pressEnter);
+                                Console.ReadLine();
+                                Console.Clear();
+                            }
                             break;
                         case 2:
                             myRockPaperScissors.ShowTotalRounds();
-                            Console.Write("\n" + "Tryck på valfri knapp för att fortsätta...");
+                            Console.Write(MenuData.pressEnter);
                             Console.ReadLine();
                             Console.Clear();
                             break;
                         case 3:
                             myRockPaperScissors.ShowTotalResults();
-                            Console.Write("\n" + "Tryck på valfri knapp för att fortsätta...");
+                            Console.Write(MenuData.pressEnter);
+                            Console.ReadLine();
+                            Console.Clear();
+                            break;
+                        case 4:
+                            myRockPaperScissors.ShowPlayerResults();
+                            Console.Write(MenuData.pressEnter);
                             Console.ReadLine();
                             Console.Clear();
                             break;

@@ -49,3 +49,4 @@ Jag lade till funktionerna update och delete till shapes-klassen.
 
 20250321:
 Jag har nu också lagt till update och delete i kalkylatorklassen.
+Sedan pushade jag versionen till en ny branch som heter databaseHandling.

@@ -21,6 +21,15 @@ namespace Calculator
 {
     internal class CalculatorApp
     {
+        Dictionary<string, int> calcNameToCalcCaseNr = new Dictionary<string, int>
+                            {
+                                {"Summan",1 },
+                                {"Differensen",2 },
+                                {"Produkten",3 },
+                                {"Kvoten",4 },
+                                {"X:te roten ur",5 },
+                                {"Modulo",6 }
+                            };
 
         public void CalculateExtraCalculation(Calculator myCalculator,string choice)
         {
@@ -92,8 +101,8 @@ namespace Calculator
             while (choice!="0")
             {
                 Menu calculatorMenu = new Menu(MenuData.CalculatorMainMenuNr, MenuData.CalculatorMainMenu);
+                calculatorMenu.AppName = MenuData.CalculatorMenuName;
                 calculatorMenu.Display();
-
                 choice = Console.ReadLine();
 
                 AppValidation appValidation = new AppValidation(new MenuModel(calculatorMenu.NrChoices.ToArray(),
@@ -125,15 +134,7 @@ namespace Calculator
 
                             string calcName = calculationDatabaseHandler.IdToCalculationName(choiceId);
 
-                            Dictionary<string, int> calcNameToCalcCaseNr = new Dictionary<string, int>
-                            {
-                                {"Summan",1 },
-                                {"Differensen",2 },
-                                {"Produkten",3 },
-                                {"Kvoten",4 },
-                                {"X:te roten ur",5 },
-                                {"Modulo",6 }
-                            };
+                            //Ej användarens val. Det är användarens tidigare kalkyleringsval.
                             choice = calcNameToCalcCaseNr[calcName].ToString();
 
                             //Ingen ny variabel. Beräkningen sparas ju direkt i kalkylatorobjektet här!

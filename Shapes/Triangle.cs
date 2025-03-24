@@ -51,7 +51,7 @@ namespace Shapes
         }
         public void Display()
         {
-            Console.WriteLine($"{CurrentDateTime.ToString("yyyy-MM-dd HH:mm:ss")}");
+            Console.WriteLine($"\n{CurrentDateTime.ToString("yyyy-MM-dd HH:mm:ss")}");
             Console.WriteLine($"Arean = {Area()} l.e.");
             Console.WriteLine($"Omkretsen = {Perimeter()} l.e.");
         }

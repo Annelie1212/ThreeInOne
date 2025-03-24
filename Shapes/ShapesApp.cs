@@ -16,9 +16,8 @@ using System.Xml.Serialization;
 using Microsoft.EntityFrameworkCore;
 using ThreeInOne.Data;
 using ThreeInOne.DatabaseServices;
-using System.Drawing;
-using System.Reflection.Metadata;
-using Microsoft.Extensions.Options;
+
+
 
 namespace Shapes
 {
@@ -26,61 +25,44 @@ namespace Shapes
     {
         public string CalculateExtraShape()
         {
-            Menu shapesMenuContinue = new Menu();
-            shapesMenuContinue.AppName = "Vill du göra en till?" + "\n";
-            shapesMenuContinue.NrChoices = new List<string> { "1", "0" };
-            shapesMenuContinue.TextChoices = new List<string> {
-                            "Ja",
-                            "Nej"
-            };
+
+
+            Menu shapesMenuContinue = new Menu(MenuData.ExtraCalculationNr, MenuData.ExtraCalculationMenu);
+            shapesMenuContinue.AppName = MenuData.ExtraCalculationName;
             shapesMenuContinue.Display();
             string choiceContinue = Console.ReadLine();
+            Console.Clear();
 
-            if (choiceContinue == "1")
-            {
-                return "1";
-            }
-            else
-            {
-                return "0";
-            }
+            if (choiceContinue == "1"){return "1";}
+            else{return "0";}
         }
         public void Run() 
         {
             string choice = "";
             while (choice!="0")
             {
-
-                Menu shapesMenu = new Menu();
-                shapesMenu.NrChoices = new List<string> { "1", "2", "3", "4", "5","6","7","0" };
-                shapesMenu.TextChoices = new List<string> {
-                    "Rektangel",
-                    "Parallellogram",
-                    "Triangel",
-                    "Romb1",
-                    "Romb2",
-                    "Update",
-                    "Delete",
-                    "AVSLUTA"
-                };
+                Menu shapesMenu = new Menu(MenuData.ShapesMenuNr, MenuData.ShapesMenu);
+                shapesMenu.AppName = MenuData.ShapesMenuName;
                 shapesMenu.Display();
-
-
                 choice = Console.ReadLine();
 
-                MenuModel myMenuModel = new MenuModel(shapesMenu.NrChoices.ToArray(), choice);
-                MenuValidator myMenuValidator = new MenuValidator();
-                ValidationResult validationResults = myMenuValidator.Validate(myMenuModel);
-                bool isInputValid = Menu.ErrorMessageDiplay(validationResults);
+                //Console.Clear();
 
-                if (isInputValid) 
+                AppValidation appValidation = new AppValidation(new MenuModel(shapesMenu.NrChoices.ToArray(),
+                                                                choice));
+                bool isMenuInputValid = appValidation.ValidateMenuModel();
+
+                if (isMenuInputValid && choice!="0") 
                 {
+
+
                     string choiceContinue = "";
                     while ( (choiceContinue!="0") && (choice!="0") )
                     {
                         //update=false och Id = 0 (som inte existerar!)
+                        //Här gör vi bara en beräkning. Alltså ingen update och inget id.
                         CalculateShape(choice,false,0);
-                        
+                        //
                         choiceContinue = CalculateExtraShape();
                     }
 
@@ -171,12 +153,13 @@ namespace Shapes
             switch (int.Parse(choice))
             {
                 case 1:
-
-                    Console.WriteLine("Ange Basenheten: ");
+                    Menu rectangleMenu1 = new Menu(MenuData.RectangleMenuNr1, MenuData.RectangleMenu1);
+                    rectangleMenu1.AppName = MenuData.RectangleMenuName;
+                    rectangleMenu1.Display();
                     string width1 = Console.ReadLine();
-                    Console.WriteLine("Ange Höjdenheten: ");
+                    Menu rectangleMenu2 = new Menu(MenuData.RectangleMenuNr2, MenuData.RectangleMenu2);
+                    rectangleMenu2.Display();
                     string height1 = Console.ReadLine();
-                    Console.WriteLine();
 
                     RectangleModel rectangleModel = new RectangleModel(width1, height1);
                     RectangleValidator rectangleValidator = new RectangleValidator();
@@ -243,19 +226,18 @@ namespace Shapes
                     break;
 
                 case 2:
-                    Console.WriteLine("Ange Basenheten: ");
+                    Menu parallellogramMenu1 = new Menu(MenuData.ParallellogramMenuNr1, MenuData.ParallellogramMenu1);
+                    parallellogramMenu1.AppName = MenuData.ParallellogramMenuName;
+                    parallellogramMenu1.Display();
                     string width2 = Console.ReadLine();
-                    Console.WriteLine("Ange Höjdenheten: ");
+                    Menu parallellogramMenu2 = new Menu(MenuData.ParallellogramMenuNr2, MenuData.ParallellogramMenu2);
+                    parallellogramMenu2.Display();
                     string height2 = Console.ReadLine();
-                    Console.WriteLine();
 
 
-                    Console.WriteLine();
-
-
-                    ParallellogramModel paralellogramModel = new ParallellogramModel(width2, height2);
+                    ParallellogramModel parallellogramModel = new ParallellogramModel(width2, height2);
                     ParallellogramValidator parallellogramValidator = new ParallellogramValidator();
-                    ValidationResult validationResults2 = parallellogramValidator.Validate(paralellogramModel);
+                    ValidationResult validationResults2 = parallellogramValidator.Validate(parallellogramModel);
                     bool isInputValid2 = Menu.ErrorMessageDiplay(validationResults2);
 
                     if (isInputValid2)
@@ -316,16 +298,16 @@ namespace Shapes
                     break;
 
                 case 3:
-
-                    Console.WriteLine("Ange Triangelns sida A: ");
+                    Menu triangleMenu1 = new Menu(MenuData.TriangleMenuNr1, MenuData.TriangleMenu1);
+                    triangleMenu1.AppName = MenuData.TriangleMenuName;
+                    triangleMenu1.Display();
                     string sideA = Console.ReadLine();
-                    Console.WriteLine("Ange Triangelns sida B: ");
+                    Menu triangleMenu2 = new Menu(MenuData.TriangleMenuNr2, MenuData.TriangleMenu2);
+                    triangleMenu2.Display();
                     string sideB = Console.ReadLine();
-                    Console.WriteLine("Ange vinkeln mellan sidorn i grader: ");
+                    Menu triangleMenu3 = new Menu(MenuData.TriangleMenuNr3, MenuData.TriangleMenu3);
+                    triangleMenu3.Display();
                     string angleInDegrees = Console.ReadLine();
-                    Console.WriteLine();
-
-                    Console.WriteLine();
 
                     TriangleModel triangleModel = new TriangleModel(sideA, sideB, angleInDegrees);
                     TriangleValidator triangleValidator = new TriangleValidator();
@@ -385,13 +367,13 @@ namespace Shapes
                     break;
 
                 case 4:
-                    Console.WriteLine("Första romben");
-                    Console.WriteLine("Ange Basenheten: ");
+                    Menu rhombus1Menu1 = new Menu(MenuData.Romb1MenuNr1, MenuData.Romb1Menu1);
+                    rhombus1Menu1.AppName = MenuData.Romb1MenuName;
+                    rhombus1Menu1.Display();
                     string width4 = Console.ReadLine();
-                    Console.WriteLine("Ange Höjdenheten: ");
+                    Menu rhombus1Menu2 = new Menu(MenuData.Romb1MenuNr2, MenuData.Romb1Menu2);
+                    rhombus1Menu2.Display();
                     string height4 = Console.ReadLine();
-
-                    Console.WriteLine();
 
                     string diagonal1 = "1";
                     string diagonal2 = "1";
@@ -540,17 +522,15 @@ namespace Shapes
                     break;
 
                 case 5:
-
-                    Console.WriteLine("Andra romben");
-                    Console.WriteLine("Ange rombens första diagonal: ");
+                    Menu rhombus2Menu1 = new Menu(MenuData.Romb2MenuNr1, MenuData.Romb2Menu1);
+                    rhombus2Menu1.AppName = MenuData.Romb2MenuName;
+                    rhombus2Menu1.Display();
                     string diagonal12 = Console.ReadLine();
-                    Console.WriteLine("Ange andra diagonalen: ");
+                    Menu rhombus2Menu2 = new Menu(MenuData.Romb2MenuNr2, MenuData.Romb2Menu2);
+                    rhombus2Menu2.Display();
                     string diagonal22 = Console.ReadLine();
-                    Console.WriteLine();
 
-                    Console.WriteLine();
-
-                    //1 och 1 är dummy-ettor
+                    //1 och 1 är dummy-ettor för RhombusModel. Annars klagar den om den inte får nåt.
                     string width42 = "1";
                     string height42 = "1";
                     RhombusModel rhombusModel2 = new RhombusModel(width42, height42, diagonal12, diagonal22);

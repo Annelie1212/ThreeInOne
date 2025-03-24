@@ -159,6 +159,7 @@ namespace Calculator
                 }
             }
         }
+
         public void UpdateRow(int calculatorId)
         {
             using (var dbContext = new ThreeInOneAppDbContext(DatabaseHandler.options.Options))
